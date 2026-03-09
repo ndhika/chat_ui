@@ -7,7 +7,7 @@ export default function ChatBuilder({ theme, onAddMessage, messages, onDeleteMes
   const [time, setTime] = useState('')
 
   const isWA = theme === 'wa'
-  const accentColor = isWA ? '#00a884' : '#3797f0'
+  const accentColor = isWA ? '#1DA87F' : '#5B51D8'
   const fontFamily = isWA ? 'var(--font-wa)' : 'var(--font-ig)'
 
   function handleSubmit(e) {
@@ -93,8 +93,8 @@ export default function ChatBuilder({ theme, onAddMessage, messages, onDeleteMes
                 type="button"
                 onClick={() => setIsSent(true)}
                 className={`flex-1 py-2 text-sm font-medium transition-all ${isSent
-                    ? 'text-white shadow-inner'
-                    : 'text-white/40 hover:text-white/70'
+                  ? 'text-white shadow-inner'
+                  : 'text-white/40 hover:text-white/70'
                   }`}
                 style={isSent ? { background: accentColor } : { background: 'transparent' }}
               >
@@ -104,8 +104,8 @@ export default function ChatBuilder({ theme, onAddMessage, messages, onDeleteMes
                 type="button"
                 onClick={() => setIsSent(false)}
                 className={`flex-1 py-2 text-sm font-medium transition-all ${!isSent
-                    ? 'text-white shadow-inner bg-white/20'
-                    : 'text-white/40 hover:text-white/70'
+                  ? 'text-white shadow-inner bg-white/20'
+                  : 'text-white/40 hover:text-white/70'
                   }`}
               >
                 ← Received (kiri)
@@ -129,7 +129,7 @@ export default function ChatBuilder({ theme, onAddMessage, messages, onDeleteMes
           <button
             type="submit"
             className="w-full py-2.5 rounded-lg text-white font-semibold text-sm transition-all active:scale-95 hover:opacity-90"
-            style={{ background: isWA ? 'linear-gradient(135deg, #00a884, #008f72)' : 'linear-gradient(135deg, #3797f0, #1a75d6)' }}
+            style={{ background: isWA ? 'linear-gradient(135deg, #1DA87F, #15936E)' : 'linear-gradient(135deg, #5B51D8, #833AB4)' }}
           >
             + Tambah Pesan
           </button>
@@ -150,8 +150,8 @@ export default function ChatBuilder({ theme, onAddMessage, messages, onDeleteMes
                     className="flex items-start gap-2 p-2.5 rounded-lg bg-white/5 border border-white/5 group hover:border-white/15 transition-all"
                   >
                     <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 mt-0.5 ${msg.isSent
-                        ? 'bg-green-500/20 text-green-400'
-                        : 'bg-blue-500/20 text-blue-400'
+                      ? 'bg-green-500/20 text-green-400'
+                      : 'bg-blue-500/20 text-blue-400'
                       }`}>
                       {msg.isSent ? '➤' : '←'}
                     </span>

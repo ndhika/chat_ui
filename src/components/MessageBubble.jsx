@@ -1,4 +1,4 @@
-// MessageBubble — iOS-accurate WA and IG chat bubbles
+// MessageBubble — iOS-accurate WA (2026) and IG (2026) chat bubbles
 export default function MessageBubble({ theme, message, onDelete }) {
   return theme === 'wa'
     ? <WABubble message={message} onDelete={onDelete} />
@@ -6,10 +6,11 @@ export default function MessageBubble({ theme, message, onDelete }) {
 }
 
 /* ─────────────────────────────────────────
-   WhatsApp iOS bubble
-   Sent:     #dcf8c6 (light green), right side
-   Received: #ffffff, left side
-   Font:     SF Pro / Roboto, 14.5px
+   WhatsApp iOS bubble (2026 UI Kit)
+   Sent:     #d9fdd3 (soft light green)
+   Received: #ffffff (white)
+   Corners:  20px+ rounded (softer modern look)
+   Font:     SF Pro / Roboto, 15px
 ───────────────────────────────────────── */
 function WABubble({ message, onDelete }) {
   const { sender, text, isSent, time, status } = message
@@ -28,17 +29,17 @@ function WABubble({ message, onDelete }) {
         <div
           className={isSent ? 'animate-sent' : 'animate-received'}
           style={{
-            background: isSent ? '#dcf8c6' : '#ffffff',
-            borderRadius: isSent ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-            padding: '6px 9px 5px',
-            boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
+            background: isSent ? '#d9fdd3' : '#ffffff',
+            borderRadius: isSent ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
+            padding: '7px 10px 6px',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.08)',
             position: 'relative',
           }}
         >
           {/* Sender name (received only, group style) */}
           {!isSent && (
             <p style={{
-              color: '#00a884',
+              color: '#1DA87F',
               fontSize: '12.5px',
               fontWeight: '600',
               marginBottom: '1px',
@@ -49,12 +50,12 @@ function WABubble({ message, onDelete }) {
           {/* Message */}
           <p style={{
             color: '#111b21',
-            fontSize: '14.5px',
-            lineHeight: '1.4',
+            fontSize: '15px',
+            lineHeight: '1.35',
             fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
             wordBreak: 'break-word',
             whiteSpace: 'pre-wrap',
-            paddingRight: '40px',
+            paddingRight: '44px',
           }}>{text}</p>
 
           {/* Time + tick */}
@@ -92,10 +93,11 @@ function WABubble({ message, onDelete }) {
 }
 
 /* ─────────────────────────────────────────
-   Instagram iOS DM bubble
-   Sent:     #3797f0 (blue), right + NO tail
-   Received: #262626 (dark grey), left
-   Font:     SF Pro / Inter, 14px
+   Instagram iOS DM bubble (2026 UI Kit)
+   Sent:     Purple gradient (#5B51D8 → #833AB4)
+   Received: #262626 (dark grey)
+   Corners:  22px rounded (pill-like)
+   Font:     SF Pro / Inter, 14.5px
 ───────────────────────────────────────── */
 function IGBubble({ message, onDelete }) {
   const { sender, text, isSent, time, status } = message
@@ -134,14 +136,16 @@ function IGBubble({ message, onDelete }) {
           <div
             className={isSent ? 'animate-sent' : 'animate-received'}
             style={{
-              background: isSent ? '#3797f0' : '#262626',
+              background: isSent
+                ? 'linear-gradient(135deg, #5B51D8, #833AB4)'
+                : '#262626',
               borderRadius: '22px',
               padding: '9px 14px',
             }}
           >
             <p style={{
               color: 'white',
-              fontSize: '14px',
+              fontSize: '14.5px',
               lineHeight: '1.4',
               fontFamily: '-apple-system, BlinkMacSystemFont, Inter, sans-serif',
               wordBreak: 'break-word',

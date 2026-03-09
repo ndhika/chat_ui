@@ -1,8 +1,64 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, forwardRef } from 'react'
 import ChatHeader from './ChatHeader'
 import MessageBubble from './MessageBubble'
 
-// WhatsApp iOS bottom input bar (2026 Liquid Glass Floating Style)
+// ── iPhone Status Bar (SF Symbols accurate — no Dynamic Island) ──
+function iOSStatusBar() {
+  return (
+    <div
+      style={{
+        height: '44px',
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        paddingBottom: '8px',
+        paddingLeft: '26px',
+        paddingRight: '20px',
+        flexShrink: 0,
+      }}
+    >
+      {/* Time - left side */}
+      <span style={{
+        color: 'white',
+        fontSize: '15px',
+        fontWeight: '600',
+        fontFamily: '-apple-system, "SF Pro Display", BlinkMacSystemFont, sans-serif',
+        letterSpacing: '0.2px',
+        lineHeight: 1,
+      }}>9:41</span>
+
+      {/* Right side icons: Signal + WiFi + Battery */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {/* Cellular Signal — iOS SF Symbols style (4 bars, increasing height) */}
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="none">
+          <rect x="0" y="7.5" width="3" height="3.5" rx="1" fill="white" />
+          <rect x="4.5" y="5" width="3" height="6" rx="1" fill="white" />
+          <rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="white" />
+          <rect x="13.5" y="0" width="3" height="11" rx="1" fill="white" />
+        </svg>
+
+        {/* WiFi — iOS SF Symbols style (3-tier fan) */}
+        <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
+          <path d="M7.5 9.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z" fill="white" />
+          <path d="M4.8 8.2a3.8 3.8 0 015.4 0" stroke="white" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+          <path d="M2.4 5.8a7 7 0 0110.2 0" stroke="white" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+          <path d="M0.2 3.4a10 10 0 0114.6 0" stroke="white" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+        </svg>
+
+        {/* Battery — iOS style outline with fill, no percentage */}
+        <svg width="27" height="12" viewBox="0 0 27 12" fill="none">
+          {/* Battery body */}
+          <rect x="0.5" y="0.5" width="22" height="11" rx="3" stroke="white" strokeWidth="1.2" fill="none" opacity="0.4" />
+          {/* Battery fill */}
+          <rect x="2" y="2" width="18" height="8" rx="1.5" fill="white" />
+          {/* Battery cap/nub */}
+          <path d="M24 4v4a2 2 0 000-4z" fill="white" opacity="0.5" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
 function WAInputBar() {
   return (
     <div className="absolute bottom-6 left-0 right-0 px-3 z-10 flex flex-col gap-2">
@@ -13,31 +69,38 @@ function WAInputBar() {
           border: '1px solid rgba(255, 255, 255, 0.1)',
         }}
       >
-        {/* Plus Button */}
+        {/* Plus — iOS circle-plus style */}
         <button className="w-9 h-9 flex items-center justify-center flex-shrink-0 mb-0.5 ml-1">
-          <svg className="w-[28px] h-[28px] text-[#007aff]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="#007aff" strokeWidth="1.5" />
+            <path d="M12 7v10M7 12h10" stroke="#007aff" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>
 
         {/* Text Area (simulated) */}
         <div className="flex-1 flex items-center min-h-[36px] bg-[rgba(255,255,255,0.08)] rounded-[18px] px-3 py-1.5 mb-1 border border-[rgba(255,255,255,0.03)]">
           <span className="text-[#8e8e93] text-[15px] flex-1 select-none font-[-apple-system]">Message</span>
-          <svg className="w-[22px] h-[22px] text-[#8e8e93] opacity-80" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm3.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75z" />
+          {/* Emoji — WA iOS smiley face (thinner, cleaner) */}
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9.5" stroke="#8e8e93" strokeWidth="1.3" />
+            <circle cx="9" cy="10.5" r="1.1" fill="#8e8e93" />
+            <circle cx="15" cy="10.5" r="1.1" fill="#8e8e93" />
+            <path d="M8.5 14.5c.8 1.6 2 2.5 3.5 2.5s2.7-.9 3.5-2.5" stroke="#8e8e93" strokeWidth="1.2" strokeLinecap="round" fill="none" />
           </svg>
         </div>
 
-        {/* Camera / Mic Cluster */}
+        {/* Camera + Mic Cluster */}
         <div className="flex items-center gap-1 mb-1 mr-1">
+          {/* Camera — WA iOS compact filled */}
           <button className="w-8 h-8 flex items-center justify-center">
-            <svg className="w-[24px] h-[24px] text-[#007aff]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+            <svg width="22" height="18" viewBox="0 0 22 18" fill="none">
+              <path d="M3 4h2.5L7 2h8l1.5 2H19a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#007aff" strokeWidth="1.4" fill="none" />
+              <circle cx="11" cy="10" r="3.5" stroke="#007aff" strokeWidth="1.4" fill="none" />
             </svg>
           </button>
+          {/* Mic — WA green circle */}
           <button className="w-9 h-9 bg-[#25d366] rounded-full flex items-center justify-center shadow-sm">
-            <svg className="w-[20px] h-[20px] text-white" fill="currentColor" viewBox="0 0 24 24">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
               <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z" />
             </svg>
           </button>
@@ -47,15 +110,18 @@ function WAInputBar() {
   )
 }
 
-// Instagram iOS DM bottom bar (2025 Modern Style)
+// ── Instagram iOS DM bottom bar (2026 Modern Style) ──
 function IGInputBar() {
   return (
     <div className="absolute bottom-6 left-0 right-0 px-3 z-10">
       <div className="flex items-center gap-2 px-1 py-1 bg-[#1c1c1e] rounded-full border border-white/10 shadow-lg">
-        {/* Camera */}
-        <button className="w-[38px] h-[38px] bg-[#0095f6] rounded-full flex items-center justify-center flex-shrink-0 ml-0.5">
-          <svg className="w-[20px] h-[20px] text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 15.2A3.2 3.2 0 0 1 8.8 12 3.2 3.2 0 0 1 12 8.8 3.2 3.2 0 0 1 15.2 12 3.2 3.2 0 0 1 12 15.2M12 7a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5A5 5 0 0 0 12 7M2 4h3.5L7 2h10l1.5 2H22a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+        {/* Camera — IG gradient circle with camera lens */}
+        <button className="w-[38px] h-[38px] rounded-full flex items-center justify-center flex-shrink-0 ml-0.5"
+          style={{ background: 'linear-gradient(135deg, #5B51D8, #833AB4)' }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M3 5h2.586l1.707-1.707A1 1 0 018 3h8a1 1 0 01.707.293L18.414 5H21a2 2 0 012 2v11a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2z" stroke="white" strokeWidth="1.5" fill="none" />
+            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5" fill="none" />
           </svg>
         </button>
 
@@ -64,17 +130,27 @@ function IGInputBar() {
           <span className="text-white/40 text-[14px] flex-1 select-none font-[-apple-system]">Message...</span>
         </div>
 
-        {/* Mic */}
+        {/* Mic — IG outline style */}
         <button className="w-8 h-8 flex items-center justify-center">
-          <svg className="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+            <rect x="9" y="2" width="6" height="12" rx="3" />
+            <path d="M5 11a7 7 0 0014 0" strokeLinecap="round" />
+            <path d="M12 19v3m-3 0h6" strokeLinecap="round" />
           </svg>
         </button>
 
-        {/* Sticker + */}
+        {/* Heart — IG like button */}
+        <button className="w-8 h-8 flex items-center justify-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+        {/* Plus circle — IG sticker/attachment */}
         <button className="w-8 h-8 flex items-center justify-center mr-1">
-          <svg className="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+            <circle cx="12" cy="12" r="9.5" />
+            <path d="M12 8v8M8 12h8" strokeLinecap="round" />
           </svg>
         </button>
       </div>
@@ -82,7 +158,7 @@ function IGInputBar() {
   )
 }
 
-export default function ChatWindow({ theme, messages, onDeleteMessage, contactName, setContactName }) {
+const ChatWindow = forwardRef(function ChatWindow({ theme, messages, onDeleteMessage, contactName, setContactName }, ref) {
   const bottomRef = useRef(null)
 
   useEffect(() => {
@@ -93,59 +169,45 @@ export default function ChatWindow({ theme, messages, onDeleteMessage, contactNa
 
   return (
     /* ── Outer wrapper: the "desk" area that contains the phone ── */
-    <div className="relative flex items-center justify-center" style={{ height: '780px' }}>
+    <div className="phone-container">
 
       {/* Ambient glow */}
       <div
-        className="absolute blur-[80px] opacity-25 rounded-full pointer-events-none"
+        className="phone-glow absolute blur-[80px] opacity-25 rounded-full pointer-events-none"
         style={{
           width: '340px',
           height: '340px',
           background: isWA
-            ? 'radial-gradient(circle, #00a884 0%, transparent 70%)'
-            : 'radial-gradient(circle, #3797f0 30%, #833ab4 70%, transparent 100%)',
+            ? 'radial-gradient(circle, #1DA87F 0%, transparent 70%)'
+            : 'radial-gradient(circle, #5B51D8 30%, #833ab4 70%, transparent 100%)',
         }}
       />
 
       {/* ── iPhone 15 Pro frame ── */}
-      <div
-        style={{
-          width: '393px',
-          height: '754px',
-          borderRadius: '54px',
-          background: '#1a1a1a',
-          boxShadow: `
-            0 0 0 1px #3a3a3a,
-            0 0 0 3px #1a1a1a,
-            0 0 0 4px #4a4a4a,
-            0 35px 80px rgba(0,0,0,0.9),
-            inset 0 1px 0 rgba(255,255,255,0.08)
-          `,
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
+      <div className="phone-frame">
         {/* Side buttons (left) */}
-        <div style={{
+        <div className="phone-hw-btn" style={{
           position: 'absolute', left: '-3px', top: '110px',
           width: '3px', height: '32px', background: '#2a2a2a', borderRadius: '2px 0 0 2px'
         }} />
-        <div style={{
+        <div className="phone-hw-btn" style={{
           position: 'absolute', left: '-3px', top: '155px',
           width: '3px', height: '64px', background: '#2a2a2a', borderRadius: '2px 0 0 2px'
         }} />
-        <div style={{
+        <div className="phone-hw-btn" style={{
           position: 'absolute', left: '-3px', top: '230px',
           width: '3px', height: '64px', background: '#2a2a2a', borderRadius: '2px 0 0 2px'
         }} />
         {/* Power button (right) */}
-        <div style={{
+        <div className="phone-hw-btn" style={{
           position: 'absolute', right: '-3px', top: '165px',
           width: '3px', height: '90px', background: '#2a2a2a', borderRadius: '0 2px 2px 0'
         }} />
 
         {/* Screen area */}
         <div
+          ref={ref}
+          className="phone-screen"
           style={{
             position: 'absolute',
             inset: '6px',
@@ -156,79 +218,24 @@ export default function ChatWindow({ theme, messages, onDeleteMessage, contactNa
             flexDirection: 'column',
           }}
         >
-          {/* ── iOS Status Bar ── */}
-          <div
-            style={{
-              height: '54px',
-              background: isWA ? '#075e54' : '#000',
-              display: 'flex',
-              alignItems: 'flex-end',
-              paddingBottom: '8px',
-              paddingLeft: '20px',
-              paddingRight: '20px',
-              flexShrink: 0,
-              position: 'relative',
-            }}
-          >
-            {/* Dynamic Island */}
-            <div style={{
-              position: 'absolute',
-              top: '10px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '120px',
-              height: '34px',
-              background: '#000',
-              borderRadius: '20px',
-              zIndex: 10,
-            }} />
-
-            {/* Time - left */}
-            <span style={{
-              color: 'white',
-              fontSize: '15px',
-              fontWeight: '600',
-              fontFamily: '-apple-system, BlinkMacSystemFont, SF Pro Display, sans-serif',
-              letterSpacing: '-0.3px',
-            }}>9:41</span>
-
-            {/* Right icons */}
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              {/* Signal */}
-              <svg width="17" height="12" viewBox="0 0 17 12" fill="white">
-                <rect x="0" y="4" width="3" height="8" rx="1" />
-                <rect x="4.5" y="3" width="3" height="9" rx="1" />
-                <rect x="9" y="1.5" width="3" height="10.5" rx="1" />
-                <rect x="13.5" y="0" width="3" height="12" rx="1" />
-              </svg>
-              {/* WiFi */}
-              <svg width="16" height="12" viewBox="0 0 16 12" fill="white">
-                <path d="M8 10a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                <path d="M3.5 6.5a6.5 6.5 0 019 0" stroke="white" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-                <path d="M1 4a10 10 0 0114 0" stroke="white" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-              </svg>
-              {/* Battery */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-                <div style={{
-                  width: '25px', height: '12px', border: '1.5px solid white', borderRadius: '3px',
-                  padding: '2px', display: 'flex', alignItems: 'center',
-                }}>
-                  <div style={{ width: '80%', height: '100%', background: 'white', borderRadius: '1px' }} />
-                </div>
-                <div style={{ width: '2px', height: '5px', background: 'white', borderRadius: '0 1px 1px 0', marginLeft: '-1px' }} />
-              </div>
-            </div>
+          {/* ── iOS Status Bar (No Dynamic Island) ── */}
+          <div style={{
+            background: isWA ? '#1DA87F' : '#000',
+            flexShrink: 0,
+            zIndex: 10,
+          }}>
+            {iOSStatusBar()}
           </div>
 
           {/* ── Chat Header ── */}
-          <div style={{ background: isWA ? '#075e54' : '#000', flexShrink: 0 }}>
+          <div style={{ background: isWA ? '#1DA87F' : '#000', flexShrink: 0 }}>
             <ChatHeader theme={theme} contactName={contactName} setContactName={setContactName} />
           </div>
 
           {/* ── Messages ── */}
           <div
             className={`flex-1 overflow-y-auto ${isWA ? 'wa-wallpaper' : 'bg-black'}`}
-            style={{ padding: '8px 8px 80px' }} // Added bottom padding to avoid floating bar
+            style={{ padding: '8px 8px 80px' }}
           >
             {messages.length === 0 ? (
               <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -270,4 +277,6 @@ export default function ChatWindow({ theme, messages, onDeleteMessage, contactNa
       </div>
     </div>
   )
-}
+})
+
+export default ChatWindow

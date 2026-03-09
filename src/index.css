@@ -68,7 +68,7 @@ body {
   right: -8px;
   width: 0;
   height: 0;
-  border-left: 8px solid #00a884;
+  border-left: 8px solid #d9fdd3;
   border-bottom: 8px solid transparent;
 }
 
@@ -91,7 +91,7 @@ body {
   right: -6px;
   width: 0;
   height: 0;
-  border-left: 7px solid #3797f0;
+  border-left: 7px solid #5B51D8;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
 }
@@ -123,4 +123,103 @@ body {
 }
 .animate-received {
   animation: slideInLeft 0.2s ease-out;
+}
+
+/* ===== PHONE FRAME (Desktop) ===== */
+.phone-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 12px 0;
+}
+
+.phone-frame {
+  width: 375px;
+  height: 100%;
+  max-height: min(812px, calc(100vh - 80px));
+  aspect-ratio: 375 / 812;
+  border-radius: 54px;
+  background: #1a1a1a;
+  box-shadow:
+    0 0 0 1px #3a3a3a,
+    0 0 0 3px #1a1a1a,
+    0 0 0 4px #4a4a4a,
+    0 35px 80px rgba(0,0,0,0.9),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== RESPONSIVE LAYOUT ===== */
+
+/* Hide side panels on tablet/mobile */
+@media (max-width: 768px) {
+  .desktop-sidebar {
+    display: none !important;
+  }
+  .desktop-topbar {
+    padding: 8px 12px !important;
+  }
+  .desktop-topbar .desktop-actions {
+    display: none !important;
+  }
+  .phone-center {
+    flex: 1 !important;
+    padding: 8px 0 !important;
+  }
+  .phone-frame {
+    max-height: calc(100vh - 60px);
+  }
+}
+
+/* Small mobile: phone becomes full-screen */
+@media (max-width: 480px) {
+  html, body, #root {
+    overflow: auto !important;
+  }
+
+  .desktop-topbar {
+    display: none !important;
+  }
+
+  .phone-container {
+    height: 100dvh;
+    padding: 0;
+  }
+
+  .phone-frame {
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    aspect-ratio: unset;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .phone-frame .phone-screen {
+    border-radius: 0 !important;
+    inset: 0 !important;
+  }
+
+  .phone-hw-btn {
+    display: none !important;
+  }
+
+  .phone-glow {
+    display: none !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .phone-container {
+    padding: 8px 0;
+  }
+  .phone-frame {
+    width: 340px;
+    max-height: calc(100vh - 60px);
+    border-radius: 48px;
+  }
 }

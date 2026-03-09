@@ -27,14 +27,14 @@ export default function App() {
       style={{ background: 'linear-gradient(135deg, #0d0d0f 0%, #111318 50%, #0d0f14 100%)' }}
     >
       {/* ===== TOP BAR ===== */}
-      <div className="flex items-center justify-between px-8 py-4 border-b border-white/5 flex-shrink-0">
+      <div className="desktop-topbar flex items-center justify-between px-8 py-4 border-b border-white/5 flex-shrink-0">
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-xl flex items-center justify-center text-lg"
             style={{
               background: theme === 'wa'
-                ? 'linear-gradient(135deg, #00a884, #008f72)'
-                : 'linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)'
+                ? 'linear-gradient(135deg, #1DA87F, #15936E)'
+                : 'linear-gradient(135deg, #5B51D8, #833AB4)'
             }}
           >
             {theme === 'wa' ? '💬' : '📸'}
@@ -47,7 +47,7 @@ export default function App() {
 
         <ThemeToggle theme={theme} onChange={handleThemeChange} />
 
-        <div className="flex items-center gap-3">
+        <div className="desktop-actions flex items-center gap-3">
           <button
             onClick={() => active.resetMessages([])}
             className="px-3 py-1.5 rounded-lg text-xs text-white/50 hover:text-red-400 hover:bg-red-500/10 border border-white/10 hover:border-red-500/20 transition-all"
@@ -69,7 +69,7 @@ export default function App() {
       <div className="flex flex-1 overflow-hidden">
 
         {/* Left: Builder panel */}
-        <div className="w-80 flex-shrink-0 border-r border-white/5 overflow-y-auto">
+        <div className="desktop-sidebar w-80 flex-shrink-0 border-r border-white/5 overflow-y-auto">
           <ChatBuilder
             theme={theme}
             messages={active.messages}
@@ -81,15 +81,15 @@ export default function App() {
         </div>
 
         {/* Center: Phone preview */}
-        <div className="flex-1 flex items-center justify-center overflow-hidden">
+        <div className="phone-center flex-1 flex items-center justify-center overflow-hidden">
           <div className="relative">
             {/* Glow effect behind phone */}
             <div
               className="absolute inset-0 blur-3xl opacity-20 rounded-full scale-75 -z-10"
               style={{
                 background: theme === 'wa'
-                  ? 'radial-gradient(circle, #00a884 0%, transparent 70%)'
-                  : 'radial-gradient(circle, #3797f0 0%, #833ab4 50%, transparent 80%)'
+                  ? 'radial-gradient(circle, #1DA87F 0%, transparent 70%)'
+                  : 'radial-gradient(circle, #5B51D8 0%, #833AB4 50%, transparent 80%)'
               }}
             />
             <ChatWindow
@@ -103,7 +103,7 @@ export default function App() {
         </div>
 
         {/* Right: Info / tips panel */}
-        <div className="w-64 flex-shrink-0 border-l border-white/5 p-5 flex flex-col gap-4">
+        <div className="desktop-sidebar w-64 flex-shrink-0 border-l border-white/5 p-5 flex flex-col gap-4">
           <div>
             <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-3">💡 Tips</p>
             <div className="flex flex-col gap-2.5">
@@ -126,11 +126,11 @@ export default function App() {
             <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-3">🎨 Theme</p>
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#00a884]" />
+                <div className="w-3 h-3 rounded-full bg-[#1DA87F]" />
                 <span className="text-white/40 text-xs">WA — Font Roboto</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#3797f0]" />
+                <div className="w-3 h-3 rounded-full bg-[#5B51D8]" />
                 <span className="text-white/40 text-xs">IG — Font Inter</span>
               </div>
             </div>
