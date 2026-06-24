@@ -1,8 +1,8 @@
 // MessageBubble — iOS-accurate WA (2026) and IG (2026) chat bubbles
-export default function MessageBubble({ theme, message, onDelete }) {
+export default function MessageBubble({ theme, message, onDelete, isFirst, isLast }) {
   return theme === 'wa'
-    ? <WABubble message={message} onDelete={onDelete} />
-    : <IGBubble message={message} onDelete={onDelete} />
+    ? <WABubble message={message} onDelete={onDelete} isFirst={isFirst} isLast={isLast} />
+    : <IGBubble message={message} onDelete={onDelete} isFirst={isFirst} isLast={isLast} />
 }
 
 /* ─────────────────────────────────────────
@@ -12,8 +12,13 @@ export default function MessageBubble({ theme, message, onDelete }) {
    Corners:  20px+ rounded (softer modern look)
    Font:     SF Pro / Roboto, 15px
 ───────────────────────────────────────── */
-function WABubble({ message, onDelete }) {
+function WABubble({ message, onDelete, isFirst, isLast }) {
   const { sender, text, isSent, time, status } = message
+
+  const tailClass = isFirst ? (isSent ? 'bubble-tail-sent' : 'bubble-tail-received') : ''
+  const brSent = isFirst ? '20px 4px 20px 20px' : '20px 20px 20px 20px'
+  const brReceived = isFirst ? '4px 20px 20px 20px' : '20px 20px 20px 20px'
+  const borderRadius = isSent ? brSent : brReceived
 
   return (
     <div
@@ -27,32 +32,32 @@ function WABubble({ message, onDelete }) {
     >
       <div style={{ position: 'relative', maxWidth: '72%' }}>
         <div
-          className={isSent ? 'animate-sent' : 'animate-received'}
+          className={`${isSent ? 'animate-sent' : 'animate-received'} ${tailClass}`}
           style={{
-            background: isSent ? '#d9fdd3' : '#ffffff',
-            borderRadius: isSent ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
+            background: isSent ? '#005c4b' : '#202c33',
+            borderRadius: borderRadius,
             padding: '7px 10px 6px',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.08)',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.2)',
             position: 'relative',
           }}
         >
           {/* Sender name (received only, group style) */}
-          {!isSent && (
+          {!isSent && isFirst && (
             <p style={{
-              color: '#1DA87F',
+              color: '#53bdeb',
               fontSize: '12.5px',
               fontWeight: '600',
               marginBottom: '1px',
-              fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
+              fontFamily: 'var(--font-wa)',
             }}>{sender}</p>
           )}
 
           {/* Message */}
           <p style={{
-            color: '#111b21',
+            color: '#e9edef',
             fontSize: '15px',
             lineHeight: '1.35',
-            fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
+            fontFamily: 'var(--font-wa)',
             wordBreak: 'break-word',
             whiteSpace: 'pre-wrap',
             paddingRight: '44px',
@@ -64,7 +69,7 @@ function WABubble({ message, onDelete }) {
             justifyContent: 'flex-end',
             position: 'absolute', bottom: '5px', right: '8px',
           }}>
-            <span style={{ fontSize: '11px', color: isSent ? '#667781' : '#8696a0', whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: '11px', color: '#8696a0', whiteSpace: 'nowrap' }}>
               {time}
             </span>
             {isSent && <WATick status={status} />}
@@ -99,36 +104,58 @@ function WABubble({ message, onDelete }) {
    Corners:  22px rounded (pill-like)
    Font:     SF Pro / Inter, 14.5px
 ───────────────────────────────────────── */
-function IGBubble({ message, onDelete }) {
-  const { sender, text, isSent, time, status } = message
+function IGBubble({ message, onDelete, isFirst, isLast }) {
+  const { id, sender, text, isSent, time, status } = message
+
+  let borderRadius = '22px'
+  if (isSent) {
+    if (isFirst && !isLast) borderRadius = '22px 22px 4px 22px'
+    else if (!isFirst && !isLast) borderRadius = '22px 4px 4px 22px'
+    else if (!isFirst && isLast) borderRadius = '22px 4px 22px 22px'
+  } else {
+    if (isFirst && !isLast) borderRadius = '22px 22px 22px 4px'
+    else if (!isFirst && !isLast) borderRadius = '4px 22px 22px 4px'
+    else if (!isFirst && isLast) borderRadius = '4px 22px 22px 22px'
+  }
+
+  const bgStyle = isSent ? {
+    backgroundImage: 'linear-gradient(to top right, #3355ff, #8c2cfb, #d033a0)',
+    backgroundAttachment: 'fixed',
+  } : {
+    background: '#262626'
+  }
 
   return (
-    <div
-      className="group"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: isSent ? 'flex-end' : 'flex-start',
-        marginBottom: '3px',
-        padding: '1px 6px',
-      }}
-    >
+    <>
+      {time && isFirst && (
+        <div style={{ textAlign: 'center', margin: '16px 0 12px' }}>
+          <span style={{ fontSize: '11.5px', color: 'rgba(255,255,255,0.4)', fontWeight: '500' }}>{time}</span>
+        </div>
+      )}
+      <div
+        className="group"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: isSent ? 'flex-end' : 'flex-start',
+          marginBottom: '3px',
+          padding: '1px 6px',
+        }}
+      >
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: '6px', maxWidth: '75%' }}>
         {/* Avatar — received only */}
         {!isSent && (
-          <div style={{
-            width: '24px', height: '24px', borderRadius: '50%', flexShrink: 0,
-            background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)',
-            padding: '1.5px', marginBottom: '2px',
-          }}>
-            <div style={{
-              width: '100%', height: '100%', borderRadius: '50%',
-              background: '#1c1c1e',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '9px', fontWeight: '700', color: 'white',
-            }}>
-              {sender.charAt(0).toUpperCase()}
-            </div>
+          <div style={{ width: '26px', flexShrink: 0, display: 'flex', alignItems: 'flex-end', marginBottom: '2px' }}>
+            {isLast && (
+              <div style={{
+                width: '26px', height: '26px', borderRadius: '50%',
+                background: '#2a2a2a',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '11px', fontWeight: '700', color: 'white',
+              }}>
+                {sender.charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
         )}
 
@@ -136,10 +163,8 @@ function IGBubble({ message, onDelete }) {
           <div
             className={isSent ? 'animate-sent' : 'animate-received'}
             style={{
-              background: isSent
-                ? 'linear-gradient(135deg, #5B51D8, #833AB4)'
-                : '#262626',
-              borderRadius: '22px',
+              ...bgStyle,
+              borderRadius: borderRadius,
               padding: '9px 14px',
             }}
           >
@@ -147,7 +172,7 @@ function IGBubble({ message, onDelete }) {
               color: 'white',
               fontSize: '14.5px',
               lineHeight: '1.4',
-              fontFamily: '-apple-system, BlinkMacSystemFont, Inter, sans-serif',
+              fontFamily: 'var(--font-ig)',
               wordBreak: 'break-word',
               whiteSpace: 'pre-wrap',
               margin: 0,
@@ -173,13 +198,8 @@ function IGBubble({ message, onDelete }) {
         </div>
       </div>
 
-      {/* Time + seen — below bubble */}
-      <div style={{ marginTop: '2px', padding: '0 4px' }}>
-        <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>
-          {time}{isSent && status === 'read' ? ' · Seen' : ''}
-        </span>
-      </div>
     </div>
+    </>
   )
 }
 

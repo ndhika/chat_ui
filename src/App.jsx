@@ -127,11 +127,11 @@ export default function App() {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#1DA87F]" />
-                <span className="text-white/40 text-xs">WA — Font Roboto</span>
+                <span className="text-white/40 text-xs">WA — Font iOS (IP)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#5B51D8]" />
-                <span className="text-white/40 text-xs">IG — Font Inter</span>
+                <span className="text-white/40 text-xs">IG — Font iOS (IP)</span>
               </div>
             </div>
           </div>

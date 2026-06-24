@@ -16,8 +16,8 @@ function WAHeader({ contactName }) {
         alignItems: 'center',
         gap: '8px',
         padding: '6px 14px 10px',
-        background: '#1DA87F',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Roboto, sans-serif',
+        background: '#1f2c34',
+        fontFamily: 'var(--font-wa)',
       }}
     >
       {/* Back chevron — iOS SF Symbols style (thinner, with badge count) */}
@@ -25,18 +25,19 @@ function WAHeader({ contactName }) {
         <svg width="11" height="19" viewBox="0 0 11 19" fill="none">
           <path d="M9.5 1.5L1.5 9.5l8 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <span style={{ color: 'white', fontSize: '17px', fontWeight: '400', lineHeight: 1, marginLeft: '2px' }}>1</span>
+        <span style={{ color: 'white', fontSize: '17px', fontWeight: '400', lineHeight: 1, marginLeft: '2px' }}>13</span>
       </div>
 
       {/* Avatar */}
       <div style={{
         width: '38px', height: '38px', borderRadius: '50%',
-        background: 'linear-gradient(135deg, #85d6b5, #5aad8f)',
+        background: '#5c5470',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '16px', fontWeight: '600', color: 'white', flexShrink: 0,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
+        flexShrink: 0,
       }}>
-        {contactName.charAt(0).toUpperCase()}
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" opacity="0.8"/>
+        </svg>
       </div>
 
       {/* Name + status */}
@@ -78,7 +79,7 @@ function IGHeader({ contactName }) {
         padding: '8px 16px 12px',
         background: '#000',
         borderBottom: '0.5px solid rgba(255,255,255,0.1)',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
+        fontFamily: 'var(--font-ig)',
       }}
     >
       {/* Back chevron — IG iOS style */}
@@ -86,37 +87,24 @@ function IGHeader({ contactName }) {
         <path d="M9 1L1 9l8 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
 
-      {/* Avatar + gradient ring (IG story ring) */}
+      {/* Avatar */}
       <div style={{ position: 'relative', flexShrink: 0 }}>
         <div style={{
           width: '36px', height: '36px', borderRadius: '50%',
-          background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)',
-          padding: '2px',
+          background: '#2a2a2a',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '16px', fontWeight: '700', color: 'white',
         }}>
-          <div style={{
-            width: '100%', height: '100%', borderRadius: '50%',
-            background: '#000',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '14px', fontWeight: '700', color: 'white',
-          }}>
-            {contactName.charAt(0).toUpperCase()}
-          </div>
+          {contactName.charAt(0).toUpperCase()}
         </div>
-        {/* Online dot */}
-        <div style={{
-          position: 'absolute', bottom: '0', right: '0',
-          width: '10px', height: '10px', background: '#3ecf5b',
-          borderRadius: '50%', border: '2px solid #000',
-        }} />
       </div>
 
       {/* Name + active */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {contactName}
+          {contactName} <span style={{ opacity: 0.5, fontSize: '13px', marginLeft: '2px' }}>&gt;</span>
         </p>
-        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '12px', margin: 0, marginTop: '1px' }}>Active now</p>
+        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '12px', margin: 0, marginTop: '1px' }}>Active 20m ago</p>
       </div>
 
       {/* Right icons — IG DM accurate: phone (outline) + video (outline) */}

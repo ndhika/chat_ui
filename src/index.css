@@ -5,8 +5,8 @@
 
 /* ===== CSS VARIABLES ===== */
 :root {
-  --font-wa: 'Roboto', system-ui, sans-serif;
-  --font-ig: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-wa: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Apple Color Emoji", sans-serif;
+  --font-ig: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Apple Color Emoji", sans-serif;
 }
 
 /* ===== BASE ===== */
@@ -64,22 +64,22 @@ body {
 .bubble-tail-sent::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: -8px;
   width: 0;
   height: 0;
-  border-left: 8px solid #d9fdd3;
+  border-left: 8px solid #005c4b;
   border-bottom: 8px solid transparent;
 }
 
 .bubble-tail-received::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: -8px;
   width: 0;
   height: 0;
-  border-right: 8px solid #ffffff;
+  border-right: 8px solid #202c33;
   border-bottom: 8px solid transparent;
 }
 

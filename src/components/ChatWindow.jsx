@@ -15,17 +15,30 @@ function iOSStatusBar() {
         paddingLeft: '26px',
         paddingRight: '20px',
         flexShrink: 0,
+        position: 'relative',
       }}
     >
+      <div
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '110px',
+          height: '30px',
+          backgroundColor: '#000',
+          borderRadius: '20px',
+          zIndex: 50,
+        }}
+      />
       {/* Time - left side */}
       <span style={{
         color: 'white',
         fontSize: '15px',
         fontWeight: '600',
-        fontFamily: '-apple-system, "SF Pro Display", BlinkMacSystemFont, sans-serif',
-        letterSpacing: '0.2px',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
         lineHeight: 1,
-      }}>9:41</span>
+      }}>22.48</span>
 
       {/* Right side icons: Signal + WiFi + Battery */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -45,14 +58,12 @@ function iOSStatusBar() {
           <path d="M0.2 3.4a10 10 0 0114.6 0" stroke="white" strokeWidth="1.6" strokeLinecap="round" fill="none" />
         </svg>
 
-        {/* Battery — iOS style outline with fill, no percentage */}
+        {/* Battery — iOS style outline with fill */}
         <svg width="27" height="12" viewBox="0 0 27 12" fill="none">
-          {/* Battery body */}
           <rect x="0.5" y="0.5" width="22" height="11" rx="3" stroke="white" strokeWidth="1.2" fill="none" opacity="0.4" />
-          {/* Battery fill */}
-          <rect x="2" y="2" width="18" height="8" rx="1.5" fill="white" />
-          {/* Battery cap/nub */}
+          <rect x="2" y="2" width="10" height="8" rx="1.5" fill="white" />
           <path d="M24 4v4a2 2 0 000-4z" fill="white" opacity="0.5" />
+          <text x="12" y="9.5" fill="white" fontSize="9" fontWeight="bold" fontFamily="-apple-system, sans-serif" textAnchor="middle">48</text>
         </svg>
       </div>
     </div>
@@ -79,7 +90,7 @@ function WAInputBar() {
 
         {/* Text Area (simulated) */}
         <div className="flex-1 flex items-center min-h-[36px] bg-[rgba(255,255,255,0.08)] rounded-[18px] px-3 py-1.5 mb-1 border border-[rgba(255,255,255,0.03)]">
-          <span className="text-[#8e8e93] text-[15px] flex-1 select-none font-[-apple-system]">Message</span>
+          <span className="text-[#8e8e93] text-[15px] flex-1 select-none" style={{ fontFamily: 'var(--font-wa)' }}>Message</span>
           {/* Emoji — WA iOS smiley face (thinner, cleaner) */}
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="9.5" stroke="#8e8e93" strokeWidth="1.3" />
@@ -115,9 +126,9 @@ function IGInputBar() {
   return (
     <div className="absolute bottom-6 left-0 right-0 px-3 z-10">
       <div className="flex items-center gap-2 px-1 py-1 bg-[#1c1c1e] rounded-full border border-white/10 shadow-lg">
-        {/* Camera — IG gradient circle with camera lens */}
+        {/* Camera — IG solid circle with camera lens */}
         <button className="w-[38px] h-[38px] rounded-full flex items-center justify-center flex-shrink-0 ml-0.5"
-          style={{ background: 'linear-gradient(135deg, #5B51D8, #833AB4)' }}
+          style={{ background: '#5B51D8' }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M3 5h2.586l1.707-1.707A1 1 0 018 3h8a1 1 0 01.707.293L18.414 5H21a2 2 0 012 2v11a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2z" stroke="white" strokeWidth="1.5" fill="none" />
@@ -127,10 +138,10 @@ function IGInputBar() {
 
         {/* Text input */}
         <div className="flex-1 flex items-center px-3 py-2">
-          <span className="text-white/40 text-[14px] flex-1 select-none font-[-apple-system]">Message...</span>
+          <span className="text-white/40 text-[14px] flex-1 select-none" style={{ fontFamily: 'var(--font-ig)' }}>Message...</span>
         </div>
 
-        {/* Mic — IG outline style */}
+        {/* Mic */}
         <button className="w-8 h-8 flex items-center justify-center">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
             <rect x="9" y="2" width="6" height="12" rx="3" />
@@ -139,14 +150,25 @@ function IGInputBar() {
           </svg>
         </button>
 
-        {/* Heart — IG like button */}
+        {/* Picture */}
         <button className="w-8 h-8 flex items-center justify-center">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" strokeLinecap="round" strokeLinejoin="round" />
+            <rect x="3" y="3" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <path d="M21 15l-5-5L5 21" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
 
-        {/* Plus circle — IG sticker/attachment */}
+        {/* Sticker */}
+        <button className="w-8 h-8 flex items-center justify-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M8 9h.01M16 9h.01M8 14c0 1.5 2 2.5 4 2.5s4-1 4-2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15 3v18" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2 4" opacity="0.3" />
+          </svg>
+        </button>
+
+        {/* Plus */}
         <button className="w-8 h-8 flex items-center justify-center mr-1">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
             <circle cx="12" cy="12" r="9.5" />
@@ -213,14 +235,14 @@ const ChatWindow = forwardRef(function ChatWindow({ theme, messages, onDeleteMes
             inset: '6px',
             borderRadius: '48px',
             overflow: 'hidden',
-            background: isWA ? '#efeae2' : '#000',
+            background: isWA ? '#0b141a' : '#000',
             display: 'flex',
             flexDirection: 'column',
           }}
         >
           {/* ── iOS Status Bar (No Dynamic Island) ── */}
           <div style={{
-            background: isWA ? '#1DA87F' : '#000',
+            background: isWA ? '#1f2c34' : '#000',
             flexShrink: 0,
             zIndex: 10,
           }}>
@@ -228,7 +250,7 @@ const ChatWindow = forwardRef(function ChatWindow({ theme, messages, onDeleteMes
           </div>
 
           {/* ── Chat Header ── */}
-          <div style={{ background: isWA ? '#1DA87F' : '#000', flexShrink: 0 }}>
+          <div style={{ background: isWA ? '#1f2c34' : '#000', flexShrink: 0 }}>
             <ChatHeader theme={theme} contactName={contactName} setContactName={setContactName} />
           </div>
 
@@ -244,9 +266,23 @@ const ChatWindow = forwardRef(function ChatWindow({ theme, messages, onDeleteMes
                 </p>
               </div>
             ) : (
-              messages.map(msg => (
-                <MessageBubble key={msg.id} theme={theme} message={msg} onDelete={onDeleteMessage} />
-              ))
+              messages.map((msg, index) => {
+                const prev = messages[index - 1]
+                const next = messages[index + 1]
+                const isFirst = !prev || prev.sender !== msg.sender || prev.isSent !== msg.isSent
+                const isLast = !next || next.sender !== msg.sender || next.isSent !== msg.isSent
+
+                return (
+                  <MessageBubble 
+                    key={msg.id} 
+                    theme={theme} 
+                    message={msg} 
+                    onDelete={onDeleteMessage} 
+                    isFirst={isFirst}
+                    isLast={isLast}
+                  />
+                )
+              })
             )}
             <div ref={bottomRef} />
           </div>
